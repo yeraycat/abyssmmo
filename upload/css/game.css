@@ -28,3 +28,25 @@ textarea {
 	font-size: 9pt;
 	color: black;
 }
+
+
+
+
+
+@media only screen and (min-width : 992px) {
+	header, main, footer {
+		padding-left: 300px;
+	}
+	
+	header .nav-wrapper, main {
+		padding-left: 48px;
+		padding-right: 48px;
+	}
+	
+	.login header {
+		padding-left: 0;
+	}
+	
+}
+
+
