@@ -52,6 +52,7 @@ class HeaderComponent {
 
                 
             </header>
+            <main class="container">
         <?php
     }
 }
