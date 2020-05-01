@@ -34,7 +34,7 @@ class HeaderComponent {
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
                 <title><?= $this->game_name ?></title>
             </head>
-        <body class="<?= $this->extra_css_classes ?>">
+        <body class="teal darken-4 teal-text text-lighten-4 <?= $this->extra_css_classes ?>">
             <header class="header">
                 <nav>
                     <div class="nav-wrapper teal">
