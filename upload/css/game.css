@@ -43,7 +43,7 @@ textarea {
 		padding-right: 48px;
 	}
 	
-	.login header {
+	.login header, .login footer, .register header, .register footer {
 		padding-left: 0;
 	}
 	

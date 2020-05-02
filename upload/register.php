@@ -21,24 +21,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 session_start();
 require "global_func.php";
+
 require_once(dirname(__FILE__) . "/models/event.php");
 require_once(dirname(__FILE__) . "/models/referral.php");
 require_once(dirname(__FILE__) . "/models/setting.php");
 require_once(dirname(__FILE__) . "/models/user.php");
 $GAME_NAME = Setting::get('GAME_NAME')->value;
-print 
-        <<<EOF
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="css/game.css" type="text/css" rel="stylesheet" />
-<title>{$GAME_NAME}</title>
-</head>
-<body onload="getme();" bgcolor="#C3C3C3">
-<img src="logo.png" alt="Your Game Logo" />
-<br />
-EOF;
+$GAME_OWNER = Setting::get('GAME_OWNER')->value;
+
 $ip = ($_SERVER['REMOTE_ADDR']);
 if (file_exists('ipbans/' . $ip))
 {
@@ -64,6 +54,7 @@ if ($_POST['username'])
         )
     );
     $error = "";
+    $result = "";
 
     if (User::exists_by_username($username))
     {
@@ -79,7 +70,7 @@ if ($_POST['username'])
         $ip = $_SERVER['REMOTE_ADDR'];
         if ($ref_id)
         {
-            if (User::exists_by_username($ref_id))
+            if (!User::exists_by_username($ref_id))
             {
                 $error = "Referrer does not exist.<br />
 				&gt; <a href='register.php'>Back</a>";
@@ -102,38 +93,18 @@ if ($_POST['username'])
                 );
                 $e_rip = mysql_escape($rem_IP);
                 $e_oip = mysql_escape($ip);
-                Referral::add($_POST['ref'], $i, $e_rip, $e_oip);
+                Referral::add($_POST['ref'], $new_user_id, $e_rip, $e_oip);
             }
+            $result = "You have signed up, enjoy the game.<br />&gt; <a href='login.php'>Login</a>";
         }
         
-
-        
-        
     }
-    if($error == "") {
-        print "You have signed up, enjoy the game.<br />&gt; <a href='login.php'>Login</a>";
-    } else {
-        echo $error;
-    }
+    require_once(dirname(__FILE__) . "/views/register_result.php");
 }
 else
 {
     $gref = abs((int) $_GET['REF']);
     $fref = $gref ? $gref : '';
-    echo <<<EOF
-    <h3>
-      {$GAME_NAME} Registration
-    </h3>
-    <form action="register.php" method="post">
-      Username: <input type="text" name="username" /><br />
-      Password: <input type="password" name="password" /><br />
-      Confirm Password: <input type="password" name="cpassword" /><br />
-      Email: <input type="text" name="email" /><br />
-      Promo Code: <input type="text" name="promo" /><br />
-      <input type="hidden" name="ref" value='{$fref}' />
-      <input type="submit" value="Submit" />
-    </form><br />
-    &gt; <a href='login.php'>Go Back</a>
-EOF;
+    require_once(dirname(__FILE__) . "/views/register_form.php");
 }
 print "</body></html>";
