@@ -136,7 +136,7 @@ class User {
         $q = mysqli_query(
             $c,
             $query
-        );
+        ) or die("User - exists_by_username - " . mysqli_error($c));
         $num_rows = mysqli_num_rows($q);
         mysqli_free_result($q);
         return $num_rows != 0;
@@ -144,11 +144,11 @@ class User {
 
     public static function check_ref_ip($ref_id, $ip) {
         global $c;
-        $query = "SELECT lastip FROM users WHERE u.username={$ref_id}";
+        $query = "SELECT lastip FROM users WHERE userid={$ref_id}";
         $q = mysqli_query(
             $c,
             $query
-        );
+        ) or die("User - check_ref_ip - " . mysqli_error($c));
         $num_rows = mysqli_num_rows($q);
         mysqli_free_result($q);
         return $num_rows != 0;
