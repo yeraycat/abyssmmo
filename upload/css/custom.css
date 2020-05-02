@@ -1,0 +1,6 @@
+header nav .brand-logo {
+    background: url('/images/black-age.svg') 0 50% no-repeat;
+    background-size: 36px;
+    padding-left: 50px;
+    min-width: 235px;
+}

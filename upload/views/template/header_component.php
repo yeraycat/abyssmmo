@@ -31,6 +31,7 @@ class HeaderComponent {
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
                 <link href="css/game-mobile.css" type="text/css" rel="stylesheet" />
                 <link href="css/game.css" type="text/css" rel="stylesheet" />
+                <link href="css/custom.css" type="text/css" rel="stylesheet" />
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
                 <title><?= $this->game_name ?></title>
             </head>
