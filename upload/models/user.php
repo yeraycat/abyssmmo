@@ -239,6 +239,10 @@ class User {
         return $this->gender == "Male";
     }
 
+    public function is_admin() {
+        return $this->user_level == 2;
+    }
+
     public function has_energy_to_attack() {
         return $this->energy > ($this->max_energy / 2);
     }
