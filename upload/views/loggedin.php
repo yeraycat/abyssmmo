@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__) . "/template/header_component.php");
 require_once(dirname(__FILE__) . "/template/footer_component.php");
 
-$header_component = new HeaderComponent($user, "loggedin", True);
+$header_component = new HeaderComponent($user, "loggedin", TRUE);
 $header_component->render();
 
 $footer_component = new FooterComponent($GAME_OWNER, $user);

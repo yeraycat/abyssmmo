@@ -12,7 +12,7 @@ require_once(dirname(__FILE__) . "/sidenav_component.php");
 class HeaderComponent {
 
     public function __construct(
-        $user, $extra_css_classes="", $sidenav=False
+        $user, $extra_css_classes="", $sidenav=FALSE
     ) {
         $this->user = $user;
         $this->game_name = Setting::get('GAME_NAME')->value;
