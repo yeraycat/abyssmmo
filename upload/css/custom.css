@@ -5,6 +5,60 @@ header nav .brand-logo {
     min-width: 235px;
 }
 
+.wallet-icon {
+    background: url('/images/wallet.svg');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position-x: 16px;
+    background-position-y: 50%;
+    padding-left: 56px;
+}
+
+.house-icon {
+    background: url('/images/house.svg');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position-x: 2px;
+    background-position-y: 10px;
+    padding-left: 42px;
+}
+
+.energy-icon {
+    background: url('/images/energy.svg');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position-x: 2px;
+    background-position-y: 50%;
+    padding-left: 42px;
+}
+
+.life-icon {
+    background: url('/images/life.svg');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position-x: 12px;
+    background-position-y: 50%;
+    padding-left: 56px;
+}
+
+.brave-icon {
+    background: url('/images/brave.svg');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position-x: 12px;
+    background-position-y: 50%;
+    padding-left: 56px;
+}
+
+.crystals-icon {
+    background: url('/images/crystals.svg');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position-x: 6px;
+    background-position-y: 50%;
+    padding-left: 56px;
+}
+
 .sidenav .sidenav-logo {
     background: url('/images/black-age.svg') 0 50% no-repeat;
     background-position-x: 50%;

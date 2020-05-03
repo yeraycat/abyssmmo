@@ -23,12 +23,21 @@ class HeaderComponent {
     public function render() {
         $money = money_formatter($this->user->money);
         $crystals = money_formatter($this->user->crystals, '');
+        
         if ($this->sidenav) {
             $this->sidenav_component = new SidenavComponent(
                 $this->user,
                 $this->game_name,
                 $this->extra_css_classes
             );
+        }
+
+        if ($this->user) {
+            $energy_percentage = (int) ($this->user->energy / $this->user->max_energy * 100);
+            $will_percentage = (int) ($this->user->will / $this->user->max_will * 100);
+            $experc = (int) ($this->user->exp / $this->user->get_exp_needed() * 100);
+            $brave_percentage = (int) ($this->user->brave / $this->user->max_brave * 100);
+            $hp_percentage = (int) ($this->user->hp / $this->user->max_hp * 100);
         }
         ?>
         <!DOCTYPE html>
@@ -52,8 +61,12 @@ class HeaderComponent {
                     <ul class="right hide-on-med-and-down">
                         <?php if (isset($this->user)): ?>
                             <li><a href="/viewuser.php?u=<?= $this->user->userid ?>"><?= $this->user->username ?> (L<?= $this->user->level ?>)</a></li>
-                            <li><a href="/shops.php"><?= $money ?></a></li>
-                            <li><a href="/cmarket.php"><i class="material-icons left">star_border</i><?= $crystals ?></a></li>
+                            <li><a class="wallet-icon" href="/shops.php"><?= $money ?></a></li>
+                            <li><a class="crystals-icon" href="/cmarket.php"></span><?= $crystals ?></a></li>
+                            <li><a class="energy-icon" href="#"></span><?= $energy_percentage ?> %</a></li>
+                            <li><a class="life-icon" href="#"></span><?= $hp_percentage ?> %</a></li>
+                            <li><a class="brave-icon" href="#"></span><?= $this->user->brave ?></a></li>
+                            <li><a class="house-icon" href="#"></span><?= $will_percentage ?> %</a></li>
                             <li><a href="/logout.php"><i class="material-icons">power_settings_new</i></a></li>
                         <?php endif; ?>
                     </ul>
