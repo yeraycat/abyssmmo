@@ -38,9 +38,22 @@ textarea {
 		padding-left: 300px;
 	}
 	
-	header .nav-wrapper, main {
+	header .nav-wrapper {
 		padding-left: 48px;
 		padding-right: 48px;
+	}
+
+	header .nav-wrapper .brand-logo {
+		display: none;
+	}
+
+	.login main, .register main {
+		padding-left: 48px;
+	}
+
+	.login header .nav-wrapper .brand-logo,
+	.register header .nav-wrapper .brand-logo {
+		display: block;
 	}
 	
 	.login header, .login footer, .register header, .register footer {
