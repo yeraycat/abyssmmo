@@ -62,7 +62,7 @@ if (!$user->is_in_hospital())
 <a href='gym.php'>Gym</a><br />
 <a href='criminal.php'>Crimes</a><br />
 <a href='education.php'>Local School</a><br />
-<a href='monopaper.php'>Announcements</a><br />
+<a href='newspaper.php'>Announcements</a><br />
 <a href='search.php'>Search</a><br />
 <a href='advsearch.php'>Advanced Search</a><br />";
     if ($user->user_level > 1)
@@ -160,7 +160,7 @@ else
     }
     print
             "</a><br />
-<a href='monopaper.php'>Announcements</a><br />
+<a href='newspaper.php'>Announcements</a><br />
 <a href='search.php'>Search</a><br />";
     if ($user->user_level > 1)
     {
