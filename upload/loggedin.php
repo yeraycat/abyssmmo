@@ -20,35 +20,40 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 session_start();
-require "global_func.php";
-
-include "mysql.php";
-require_once(dirname(__FILE__) . "/models/setting.php");
-
-$GAME_NAME = Setting::get('GAME_NAME')->value;
 if ($_SESSION['loggedin'] == 0)
 {
     header("Location: login.php");
     exit;
 }
 $userid = $_SESSION['userid'];
-require_once(dirname(__FILE__) . "/models/user.php");
-require_once(dirname(__FILE__) . "/models/paper_content.php");
-$user = User::get($userid);
-require "header.php";
-$h = new Header();
-$h->startheaders();
 
-global $c;
+require "global_func.php";
+
+require_once(dirname(__FILE__) . "/models/paper_content.php");
+require_once(dirname(__FILE__) . "/models/setting.php");
+require_once(dirname(__FILE__) . "/models/user.php");
+
+$GAME_NAME = Setting::get('GAME_NAME')->value;
+$GAME_OWNER = Setting::get('GAME_OWNER')->value;
+
+$user = User::get($userid);
+// require "header.php";
+// $h = new Header();
+// $h->startheaders();
+
 
 $user->check_level();
-$h->userdata($user);
-$h->menuarea();
-print
-        "<h1>You have logged on, {$user->username}!</h1>
-<h2>Welcome back, your last visit was: {$user->get_last_visit()}.</h2>";
+// $h->userdata($user);
+// $h->menuarea();
 $content = PaperContent::get_paper_content()->content;
-print "{$GAME_NAME} Latest News:<br />
-$content
-";
-$h->endpage();
+
+// print
+        // "<h1>You have logged on, {$user->username}!</h1>
+// <h2>Welcome back, your last visit was: {$user->get_last_visit()}.</h2>";
+// 
+// print "{$GAME_NAME} Latest News:<br />
+// $content
+// ";
+// $h->endpage();
+
+include(dirname(__FILE__) . "/views/loggedin.php");
