@@ -6,20 +6,30 @@ if (strpos($_SERVER['PHP_SELF'], "header_component.php") !== false)
 }
 
 require_once(dirname(__FILE__) . "/../../models/setting.php");
+require_once(dirname(__FILE__) . "/sidenav_component.php");
+
 
 class HeaderComponent {
 
     public function __construct(
-        $user, $extra_css_classes=""
+        $user, $extra_css_classes="", $sidenav=False
     ) {
         $this->user = $user;
         $this->game_name = Setting::get('GAME_NAME')->value;
         $this->extra_css_classes = $extra_css_classes;
+        $this->sidenav = $sidenav;
     }
 
     public function render() {
         $money = money_formatter($this->user->money);
         $crystals = money_formatter($this->user->crystals, '');
+        if ($this->sidenav) {
+            $this->sidenav_component = new SidenavComponent(
+                $this->user,
+                $this->game_name,
+                $this->extra_css_classes
+            );
+        }
         ?>
         <!DOCTYPE html>
         <html>
@@ -32,7 +42,6 @@ class HeaderComponent {
                 <link href="css/game-mobile.css" type="text/css" rel="stylesheet" />
                 <link href="css/game.css" type="text/css" rel="stylesheet" />
                 <link href="css/custom.css" type="text/css" rel="stylesheet" />
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
                 <title><?= $this->game_name ?></title>
             </head>
         <body class="teal darken-4 teal-text text-lighten-4 <?= $this->extra_css_classes ?>">
@@ -53,6 +62,9 @@ class HeaderComponent {
 
                 
             </header>
+            <?php if($this->sidenav): ?>
+                <?= $this->sidenav_component->render() ?>
+            <?php endif; ?>
             <main class="container">
         <?php
     }
