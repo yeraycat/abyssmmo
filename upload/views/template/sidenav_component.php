@@ -9,10 +9,48 @@ class SidenavComponent {
     }
     
     public function render() {
+        $money = money_formatter($this->user->money);
+        $crystals = money_formatter($this->user->crystals, '');
+        $energy_percentage = (int) ($this->user->energy / $this->user->max_energy * 100);
+        $hp_percentage = (int) ($this->user->hp / $this->user->max_hp * 100);
+        $will_percentage = (int) ($this->user->will / $this->user->max_will * 100);
+        $brave = $this->user->brave;
+
         ?>
         <div id="slide-out" class="sidenav sidenav-fixed teal">
-            <div class="sidenav-logo"></div>
-            <div class="sidenav-title"><?= $this->game_name ?></div>
+            <div class="sidenav-logo hide-on-med-and-down"></div>
+            <div class="sidenav-title hide-on-med-and-down"><?= $this->game_name ?></div>
+            <div class="sidenav-stats hide-on-large-only">
+                <div class="row">
+                    <div class="col s12 sidenav-stats__username">
+                        <a href="/viewuser.php?u=<?= $this->user->userid ?>"><?= $this->user->username ?> (L<?= $this->user->level ?>)</a>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col s6 sidenav-stats__money">
+                        <a class="wallet-icon" href="/shops.php"><?= $money ?></a>
+                    </div>
+                    <div class="col s6 sidenav-stats__crystals">
+                        <a class="crystals-icon" href="/cmarket.php"></span><?= $crystals ?></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 sidenav-stats__energy">
+                        <a class="energy-icon" href="/shops.php"><?= $energy_percentage ?> %</a>
+                    </div>
+                    <div class="col s6 sidenav-stats__life">
+                        <a class="life-icon" href="/cmarket.php"></span><?= $hp_percentage ?> %</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 sidenav-stats__brave">
+                        <a class="brave-icon" href="/shops.php"><?= $brave ?> %</a>
+                    </div>
+                    <div class="col s6 sidenav-stats__will">
+                        <a class="house-icon" href="/cmarket.php"></span><?= $will_percentage ?> %</a>
+                    </div>
+                </div>
+            </div>
             <ul>
                 <li><a href="/index.php">Home</a></li>
                 <li><a href="/inventory.php">Items</a></li>

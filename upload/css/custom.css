@@ -9,9 +9,9 @@ header nav .brand-logo {
     background: url('/images/wallet.svg');
     background-size: 36px;
     background-repeat: no-repeat;
-    background-position-x: 16px;
+    background-position-x: 2px;
     background-position-y: 50%;
-    padding-left: 56px;
+    padding-left: 42px;
 }
 
 .house-icon {
@@ -23,22 +23,26 @@ header nav .brand-logo {
     padding-left: 42px;
 }
 
+.sidenav-stats .house-icon {
+    background-position-y: 0;
+}
+
 .energy-icon {
     background: url('/images/energy.svg');
     background-size: 36px;
     background-repeat: no-repeat;
-    background-position-x: 2px;
+    background-position-x: 0px;
     background-position-y: 50%;
-    padding-left: 42px;
+    padding-left: 35px;
 }
 
 .life-icon {
     background: url('/images/life.svg');
     background-size: 36px;
     background-repeat: no-repeat;
-    background-position-x: 12px;
+    background-position-x: 2px;
     background-position-y: 50%;
-    padding-left: 56px;
+    padding-left: 42px;
 }
 
 .brave-icon {
@@ -58,6 +62,18 @@ header nav .brand-logo {
     background-position-y: 50%;
     padding-left: 56px;
 }
+
+@media only screen and (min-width: 993px) {
+    .nav-wrapper ul li a {
+        padding-right: 2px;
+    }
+}
+@media only screen and (min-width: 1090px) {
+    .nav-wrapper ul li a {
+        padding-right: 15px;
+    }
+}
+
 
 .sidenav .sidenav-logo {
     background: url('/images/black-age.svg') 0 50% no-repeat;

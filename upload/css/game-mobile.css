@@ -13,3 +13,12 @@ header, main, footer {
     color: #111;
     text-align: center;
 }
+.sidenav-stats {
+    padding: 0 20px;
+}
+.sidenav-stats .col a {
+    height: 42px;
+    padding-top: 6px;
+    font-size: 1.2rem;
+    display: inline-block;
+}

@@ -21,8 +21,10 @@ class HeaderComponent {
     }
 
     public function render() {
-        $money = money_formatter($this->user->money);
-        $crystals = money_formatter($this->user->crystals, '');
+        if ($this->user) {
+            $money = money_formatter($this->user->money);
+            $crystals = money_formatter($this->user->crystals, '');
+        }
         
         if ($this->sidenav) {
             $this->sidenav_component = new SidenavComponent(
@@ -57,19 +59,19 @@ class HeaderComponent {
             <header class="header">
                 <nav>
                     <div class="nav-wrapper teal">
-                    <a href="/index.php" class="brand-logo"><?= $this->game_name ?></a>
-                    <ul class="right hide-on-med-and-down">
+                        <a href="/index.php" class="brand-logo"><?= $this->game_name ?></a>
                         <?php if (isset($this->user)): ?>
-                            <li><a href="/viewuser.php?u=<?= $this->user->userid ?>"><?= $this->user->username ?> (L<?= $this->user->level ?>)</a></li>
-                            <li><a class="wallet-icon" href="/shops.php"><?= $money ?></a></li>
-                            <li><a class="crystals-icon" href="/cmarket.php"></span><?= $crystals ?></a></li>
-                            <li><a class="energy-icon" href="#"></span><?= $energy_percentage ?> %</a></li>
-                            <li><a class="life-icon" href="#"></span><?= $hp_percentage ?> %</a></li>
-                            <li><a class="brave-icon" href="#"></span><?= $this->user->brave ?></a></li>
-                            <li><a class="house-icon" href="#"></span><?= $will_percentage ?> %</a></li>
-                            <li><a href="/logout.php"><i class="material-icons">power_settings_new</i></a></li>
+                            <ul class="right hide-on-med-and-down">
+                                <li><a href="/viewuser.php?u=<?= $this->user->userid ?>"><?= $this->user->username ?> (L<?= $this->user->level ?>)</a></li>
+                                <li><a class="wallet-icon" href="/shops.php"><?= $money ?></a></li>
+                                <li><a class="crystals-icon" href="/cmarket.php"></span><?= $crystals ?></a></li>
+                                <li><a class="energy-icon" href="#"></span><?= $energy_percentage ?> %</a></li>
+                                <li><a class="life-icon" href="#"></span><?= $hp_percentage ?> %</a></li>
+                                <li><a class="brave-icon" href="#"></span><?= $this->user->brave ?></a></li>
+                                <li><a class="house-icon" href="#"></span><?= $will_percentage ?> %</a></li>
+                                <li><a href="/logout.php"><i class="material-icons">power_settings_new</i></a></li>
+                            </ul>
                         <?php endif; ?>
-                    </ul>
                     </div>
                 </nav>
 
