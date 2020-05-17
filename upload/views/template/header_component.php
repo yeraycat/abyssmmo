@@ -5,6 +5,7 @@ if (strpos($_SERVER['PHP_SELF'], "header_component.php") !== false)
     exit;
 }
 
+require_once(dirname(__FILE__) . "/../../global_func.php");
 require_once(dirname(__FILE__) . "/../../models/setting.php");
 require_once(dirname(__FILE__) . "/sidenav_component.php");
 

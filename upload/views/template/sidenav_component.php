@@ -53,7 +53,7 @@ class SidenavComponent {
             </div>
             <ul>
                 <li><a href="/index.php">Home</a></li>
-                <li><a href="/inventory.php">Items</a></li>
+                <li><a href="/inventory.php">Inventory</a></li>
                 <?php if(!$this->user->is_in_hospital()): ?>
                     <li><a href="/explore.php">Explore</a></li>
                     <li><a href="/gym.php">Gym</a></li>
