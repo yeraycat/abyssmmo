@@ -8,13 +8,15 @@ abstract class BaseManager {
     protected static $default_order_by;
     protected static $default_order_dir = "ASC";
 
-    public function get($pk, $prefetch=NULL) {
+    public function get($pk, $conditions=NULL, $prefetch=NULL, $string_id=false) {
         global $c;
         $tablename = static::$tablename;
         $prefetch = $prefetch && count($prefetch) ? $this->generate_joins($prefetch) : '';
         $pkfield = static::$pkfield;
         $pkfield = $prefetch ? "{$tablename}.{$pkfield}" : $pkfield;
-        $query = "SELECT * FROM {$tablename} {$prefetch} WHERE {$pkfield}={$pk};";
+        $pk = $string_id ? "'".$pk."'" : $pk;
+        $conditions = $conditions && count($conditions) ? $this->generate_where($conditions) : "WHERE {$pkfield}={$pk}";
+        $query = "SELECT * FROM {$tablename} {$prefetch} {$conditions};";
         $q = mysqli_query($c, $query) or die(mysqli_error($c));
         $r = mysqli_fetch_array($q);
         mysqli_free_result($q);
@@ -40,15 +42,15 @@ abstract class BaseManager {
         return $num_rows != 0;
     }
 
-    public function all($order_by="", $order_dir="", $prefetch=NULL) {
+    public function all($order_by="", $order_dir="", $conditions=NULL, $prefetch=NULL) {
         global $c;
         $tablename = static::$tablename;
         $prefetch = $prefetch && count($prefetch) ? $this->generate_joins($prefetch) : '';
         $order_by = $order_by ? $order_by : static::$default_order_by;
         $order_dir = $order_dir ? $order_dir : static::$default_order_dir;
         $order_by = $prefetch ? "{$tablename}.{$order_by}" : $order_by;
-        
-        $query = "SELECT * FROM {$tablename} {$prefetch} ORDER BY {$order_by} {$order_dir};";
+        $conditions = $conditions && count($conditions) ? $this->generate_where($conditions) : "";
+        $query = "SELECT * FROM {$tablename} {$prefetch} {$conditions} ORDER BY {$order_by} {$order_dir};";
         $q = mysqli_query($c, $query) or die(mysqli_error($c));
         $result = [];
         while ($r = mysqli_fetch_array($q))
@@ -108,6 +110,17 @@ abstract class BaseManager {
             $result = $result . $join;
         }
         
+        return $result;
+    }
+
+    protected function generate_where($conditions) {
+        $result = "WHERE";
+        foreach($conditions as $condition) {
+            if (isset($condition['logical_operator'])) {
+                $result .= " " . $condition['logical_operator'];
+            }
+            $result .= " " . $condition['condition'] . $condition['value'];
+        }
         return $result;
     }
 }
