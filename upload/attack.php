@@ -28,6 +28,7 @@ if ($_SESSION['loggedin'] == 0)
 }
 $userid = $_SESSION['userid'];
 require_once(dirname(__FILE__) . "/models/user.php");
+require_once(dirname(__FILE__) . "/models/weapon.php");
 $user = User::get($userid);
 
 require "header.php";
@@ -124,13 +125,14 @@ if ($_GET['wepid'])
         $user->exp_penalty();
         die("");
     }
-    $qo = mysqli_query(
-        $c,
-        "SELECT i.*,w.* FROM items i LEFT JOIN weapons w ON i.itmid=w.item_id WHERE w.item_id={$_GET['wepid']}"
-    );
-    $r1 = mysqli_fetch_array($qo);
+    $weapon = Weapon::objects()->get($_GET['wepid']);
+    // $qo = mysqli_query(
+    //     $c,
+    //     "SELECT i.*,w.* FROM items i LEFT JOIN weapons w ON i.itmid=w.item_id WHERE w.item_id={$_GET['wepid']}"
+    // );
+    // $r1 = mysqli_fetch_array($qo);
     $mydamage =
-            (int) (($r1['damage'] * $user->user_stats->strength / $opponent->user_stats->guard)
+            (int) (($weapon->damage * $user->user_stats->strength / $opponent->user_stats->guard)
                     * (rand(8000, 12000) / 10000));
     $hitratio = min(50 * $user->user_stats->agility / $opponent->user_stats->agility, 95);
     if (rand(1, 100) <= $hitratio)
@@ -148,11 +150,10 @@ if ($_GET['wepid'])
             $mydamage += 1;
         }
         $opponent->damage($mydamage);
-        
         print
-                "<font color=red>{$_GET['nextstep']}. Using your {$r1['itmname']} you hit {$opponent->username} doing $mydamage damage ({$opponent->hp})</font><br />\n";
+                "<font color=red>{$_GET['nextstep']}. Using your {$weapon->name} you hit {$opponent->username} doing $mydamage damage ({$opponent->hp})</font><br />\n";
         $_SESSION['attacklog'] .=
-                "<font color=red>{$_GET['nextstep']}. Using his {$r1['itmname']} {$user->username} hit {$opponent->username} doing $mydamage damage ({$opponent->hp})</font><br />\n";
+                "<font color=red>{$_GET['nextstep']}. Using his {$weapon->name} {$user->username} hit {$opponent->username} doing $mydamage damage ({$opponent->hp})</font><br />\n";
     }
     else
     {
@@ -211,7 +212,7 @@ if ($_GET['wepid'])
             );
             if (mysqli_num_rows($q3))
             {
-                $dam -= mysqli_data_seek($q3, 0, 0);
+                $dam -= mysqli_data_seek($q3, 0);
             }
             $user->damage($dam);
             $ns = $_GET['nextstep'] + 1;

@@ -640,9 +640,10 @@ function new_item_submit()
         $h->endpage();
         exit;
     }
+    $item_type = ItemType::objects()->get($itmtype);
     $itmbuyp = abs(@intval($_POST['itmbuyprice']));
     $itmsellp = abs(@intval($_POST['itmsellprice']));
-    $item = Item::objects()->get(Item::add($itmname, $itmtype, $itmdesc, $itmbuyp, $itmsellp, $itmbuy));
+    $item = Item::objects()->create_item($item_type, $itmname, $itmdesc, $itmbuyp, $itmsellp, $itmbuy);
     if ($item->is_food())
     {
         $stat = abs(@intval($_POST['energy']));

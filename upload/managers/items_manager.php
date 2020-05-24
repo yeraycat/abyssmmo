@@ -9,14 +9,16 @@ class ItemsManager extends BaseManager
     protected static $tablename = "items";
     protected static $default_order_by = "itmid";
 
-    public function get($pk)
+    public function get($pk, $prefetch=NULL)
     {
-        return Item::from_mysqli_array(parent::get($pk));
+        $default_relationships = [['tablename' => 'itemtypes', 'local_key'=> 'itmtype', 'foreign_key' => 'itmtypeid']];
+        $prefetch = $prefetch && count($prefetch) ? array_merge($default_relationships, $prefetch) : $default_relationships;
+        return Item::from_mysqli_array(parent::get($pk, $prefetch));
     }
 
-    public function all($order_by = "", $order_dir = "")
+    public function all($order_by = "", $order_dir = "", $prefetch=NULL)
     {
-        $results = parent::all($order_by, $order_dir);
+        $results = parent::all($order_by, $order_dir, $prefetch);
         $all_item_types = [];
         foreach ($results as $r) {
             array_push($all_item_types, Item::from_mysqli_array($r));

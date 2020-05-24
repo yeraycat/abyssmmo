@@ -16,8 +16,8 @@ class ItemTypesManager extends BaseManager {
         return $this->create(new ItemType(NULL, $item_type_name));
     }
 
-    public function all($order_by="", $order_dir="") {
-        $results = parent::all($order_by, $order_dir);
+    public function all($order_by="", $order_dir="", $prefetch = NULL) {
+        $results = parent::all($order_by, $order_dir, $prefetch);
         $all_item_types = [];
         foreach($results as $r) {
             array_push($all_item_types, ItemType::from_mysqli_array($r));

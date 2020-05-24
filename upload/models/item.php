@@ -10,7 +10,7 @@ class Item extends BaseModel {
     public $id;
     public $item_type;
     public $name;
-    public $descrpition;
+    public $description;
     public $buy_price;
     public $sell_price;
     public $buyable;

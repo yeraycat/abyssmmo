@@ -11,8 +11,9 @@ abstract class BaseManager {
     public function get($pk, $prefetch=NULL) {
         global $c;
         $tablename = static::$tablename;
-        $pkfield = static::$pkfield;
         $prefetch = $prefetch && count($prefetch) ? $this->generate_joins($prefetch) : '';
+        $pkfield = static::$pkfield;
+        $pkfield = $prefetch ? "{$tablename}.{$pkfield}" : $pkfield;
         $query = "SELECT * FROM {$tablename} {$prefetch} WHERE {$pkfield}={$pk};";
         $q = mysqli_query($c, $query) or die(mysqli_error($c));
         $r = mysqli_fetch_array($q);
@@ -41,10 +42,12 @@ abstract class BaseManager {
 
     public function all($order_by="", $order_dir="", $prefetch=NULL) {
         global $c;
+        $tablename = static::$tablename;
         $prefetch = $prefetch && count($prefetch) ? $this->generate_joins($prefetch) : '';
         $order_by = $order_by ? $order_by : static::$default_order_by;
         $order_dir = $order_dir ? $order_dir : static::$default_order_dir;
-        $tablename = static::$tablename;
+        $order_by = $prefetch ? "{$tablename}.{$order_by}" : $order_by;
+        
         $query = "SELECT * FROM {$tablename} {$prefetch} ORDER BY {$order_by} {$order_dir};";
         $q = mysqli_query($c, $query) or die(mysqli_error($c));
         $result = [];
@@ -101,7 +104,8 @@ abstract class BaseManager {
             $tablenameB = $p['tablename'];
             $keyA = $p['local_key'];
             $keyB = $p['foreign_key'];
-            $result += "LEFT JOIN {$tablenameB} ON {$tablenameA}.{$keyA}={$tablenameB}.{$keyB} ";
+            $join = "LEFT JOIN {$tablenameB} ON {$tablenameA}.{$keyA}={$tablenameB}.{$keyB} ";
+            $result = $result . $join;
         }
         
         return $result;
