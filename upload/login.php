@@ -21,10 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 session_start();
 include "mysql.php";
-require_once(dirname(__FILE__) . "/models/setting.php");
-$GAME_NAME = Setting::get('GAME_NAME')->value;
-$GAME_OWNER = Setting::get('GAME_OWNER')->value;
-$GAME_DESCRIPTION = Setting::get('GAME_DESCRIPTION')->value;
+require_once(dirname(__FILE__) . "/services/settings_service.php");
+$GAME_NAME = SettingsService::get_game_name();
+$GAME_OWNER = SettingsService::get_game_owner();
+$GAME_DESCRIPTION = SettingsService::get_game_description();
 print
         <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

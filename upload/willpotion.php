@@ -28,13 +28,14 @@ if ($_SESSION['loggedin'] == 0)
 }
 $userid = $_SESSION['userid'];
 require_once(dirname(__FILE__) . "/models/user.php");
+require_once(dirname(__FILE__) . "/services/settings_service.php");
 $user = User::get($userid);
 require "header.php";
 $h = new Header();
 $h->startheaders();
 include "mysql.php";
-require_once "models/setting.php";
-$PAYPAL = Setting::get('PAYPAL')->value;
+
+$PAYPAL = SettingsService::get_paypal();
 global $c;
 $user->check_level();
 $h->userdata($user);

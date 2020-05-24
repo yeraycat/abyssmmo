@@ -450,12 +450,12 @@ EOF;
         );
     
     require_once(dirname(__FILE__) . "/models/setting.php");
-    $game_name = Setting::create('GAME_NAME', $ins_game_name);
-    $game_description = Setting::create('GAME_DESCRIPTION', $ins_game_desc);
-    $game_owner = Setting::create('GAME_OWNER', $ins_game_owner);
-    $paypal = Setting::create('PAYPAL', $paypal);
-    $id1_name = Setting::create('ID1_NAME', $ins_game_id1name);
-    $cron_code = Setting::create('CRON_CODE', $code);
+    $game_name = Setting::objects()->create_setting('GAME_NAME', $ins_game_name);
+    $game_description = Setting::objects()->create_setting('GAME_DESCRIPTION', $ins_game_desc);
+    $game_owner = Setting::objects()->create_setting('GAME_OWNER', $ins_game_owner);
+    $paypal = Setting::objects()->create_setting('PAYPAL', $paypal);
+    $id1_name = Setting::objects()->create_setting('ID1_NAME', $ins_game_id1name);
+    $cron_code = Setting::objects()->create_setting('CRON_CODE', $code);
     
 
     echo '... Done.<br />';

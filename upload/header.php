@@ -25,7 +25,7 @@ if (strpos($_SERVER['PHP_SELF'], "header.php") !== false)
 }
 
 include "mysql.php";
-require_once(dirname(__FILE__) . "/models/setting.php");
+require_once(dirname(__FILE__) . "/services/settings_service.php");
 require_once(dirname(__FILE__) . "/models/user.php");
 require_once(dirname(__FILE__) . "/models/ad.php");
 
@@ -34,7 +34,7 @@ class Header
 
     function startheaders()
     {
-        $GAME_NAME = Setting::get('GAME_NAME')->value;
+        $GAME_NAME = SettingsService::get_game_name();
         echo <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -54,7 +54,7 @@ EOF;
         $fm = money_formatter($user->money);
         $cm = money_formatter($user->crystals, '');
         $lv = $user->get_last_visit();
-        $GAME_NAME = Setting::get('GAME_NAME')->value;
+        $GAME_NAME = SettingsService::get_game_name();
         $ip = mysqli_real_escape_string($c, $_SERVER['REMOTE_ADDR']);
         mysqli_query($c,
                 "UPDATE users SET laston=" . time()
@@ -149,7 +149,7 @@ Reason: {$r['fed_reason']}</font></b></body></html>");
 
     function endpage()
     {
-        $GAME_OWNER = Setting::get('GAME_OWNER')->value;
+        $GAME_OWNER = SettingsService::get_game_name();
         $year = date('Y');
         print
                 "</td></tr></table>

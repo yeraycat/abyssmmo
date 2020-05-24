@@ -22,9 +22,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 session_start();
 
 require_once("mysql.php");
-require_once(dirname(__FILE__) . "/models/setting.php");
+require_once(dirname(__FILE__) . "/services/settings_service.php");
 
-$GAME_NAME = Setting::get('GAME_NAME')->value;
+$GAME_NAME = SettingsService::get_game_name();
 
 if ($_POST['username'] == "" || $_POST['password'] == "")
 {

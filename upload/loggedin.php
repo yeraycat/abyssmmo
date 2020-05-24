@@ -20,20 +20,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 session_start();
-require "global_func.php";
 
-include "mysql.php";
-require_once(dirname(__FILE__) . "/models/setting.php");
 
-$GAME_NAME = Setting::get('GAME_NAME')->value;
 if ($_SESSION['loggedin'] == 0)
 {
     header("Location: login.php");
     exit;
 }
 $userid = $_SESSION['userid'];
+require "global_func.php";
+include "mysql.php";
 require_once(dirname(__FILE__) . "/models/user.php");
 require_once(dirname(__FILE__) . "/models/paper_content.php");
+require_once(dirname(__FILE__) . "/services/settings_service.php");
+
+$GAME_NAME = SettingsService::get_game_name();
 $user = User::get($userid);
 require "header.php";
 $h = new Header();

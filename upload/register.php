@@ -23,9 +23,9 @@ session_start();
 require "global_func.php";
 require_once(dirname(__FILE__) . "/models/event.php");
 require_once(dirname(__FILE__) . "/models/referral.php");
-require_once(dirname(__FILE__) . "/models/setting.php");
+require_once(dirname(__FILE__) . "/services/settings_service.php");
 require_once(dirname(__FILE__) . "/models/user.php");
-$GAME_NAME = Setting::get('GAME_NAME')->value;
+$GAME_NAME = SettingsService::get_game_name();
 print 
         <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

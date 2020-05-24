@@ -173,7 +173,7 @@ function crystal_add()
         $tp = $amount * $_POST['price'];
         mysqli_query(
             $c,
-            "INSERT INTO crystalmarket VALUES(NULL,{$amount,$userid,$tp)"
+            "INSERT INTO crystalmarket VALUES(NULL,{$amount}, {$userid}, {$tp})"
         );
         $user->increase_crystals(-$amount);
         print
