@@ -7,7 +7,13 @@ require_once(dirname(__FILE__) . "/../managers/items_manager.php");
 
 class Item extends BaseModel {
 
-
+    public $id;
+    public $item_type;
+    public $name;
+    public $descrpition;
+    public $buy_price;
+    public $sell_price;
+    public $buyable;
 
     public function __construct($id, $item_type, $name, $description, $buy_price, $sell_price, $buyable) {
         $this->id = $id;
@@ -33,42 +39,6 @@ class Item extends BaseModel {
 
     public static function objects() {
         return new ItemsManager();
-    }
-
-    public static function get_all($order_by='itmname', $order_dir='ASC') {
-        global $c;
-        $query = "SELECT * FROM items ORDER BY {$order_by} {$order_dir}";
-        $q = mysqli_query(
-            $c,
-            $query
-        ) or die(mysqli_error($c));
-        $result = [];
-        while ($r = mysqli_fetch_array($q))
-        {
-            array_push($result, self::from_mysqli_array($r));
-        }
-        mysqli_free_result($q);
-        return $result;
-    }
-
-    public static function add($name, $item_type_id, $description, $buy_price, $sell_price, $buyable) {
-        global $c;
-        
-        $query = "INSERT INTO items VALUES (
-            NULL,
-            {$item_type_id},
-            '{$name}',
-            '{$description}',
-            {$buy_price},
-            {$sell_price},
-            {$buyable}
-        )";
-        $q = mysqli_query(
-            $c,
-            $query
-        ) or die(mysqli_error($c));
-        mysqli_free_result($q);
-        return mysqli_insert_id($c);
     }
 
     public function is_buyable() {
