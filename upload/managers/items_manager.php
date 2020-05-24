@@ -24,6 +24,10 @@ class ItemsManager extends BaseManager
         return $all_item_types;
     }
 
+    public function create_item($item_type, $item_name, $item_description, $item_buy_price, $item_sell_price, $item_buyable) {
+        return $this->create(new Item(NULL, $item_type, $item_name, $item_description, $item_buy_price, $item_sell_price, $item_buyable));
+    }
+
     public function insert($item)
     {
         $tablename = self::$tablename;

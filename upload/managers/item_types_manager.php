@@ -12,6 +12,10 @@ class ItemTypesManager extends BaseManager {
         return ItemType::from_mysqli_array(parent::get($pk));
     }
 
+    public function create_item_type($item_type_name) {
+        return $this->create(new ItemType(NULL, $item_type_name));
+    }
+
     public function all($order_by="", $order_dir="") {
         $results = parent::all($order_by, $order_dir);
         $all_item_types = [];
