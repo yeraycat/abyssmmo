@@ -8,8 +8,8 @@ class ItemTypesManager extends BaseManager {
     protected static $tablename = "itemtypes";
     protected static $default_order_by = "itmtypeid";
     
-    public function get($pk) {
-        return ItemType::from_mysqli_array(parent::get($pk));
+    public function get($pk, $prefetch=NULL) {
+        return ItemType::from_mysqli_array(parent::get($pk, NULL, $prefetch));
     }
 
     public function create_item_type($item_type_name) {

@@ -13,7 +13,7 @@ class ItemsManager extends BaseManager
     {
         $default_relationships = [['tablename' => 'itemtypes', 'local_key'=> 'itmtype', 'foreign_key' => 'itmtypeid']];
         $prefetch = $prefetch && count($prefetch) ? array_merge($default_relationships, $prefetch) : $default_relationships;
-        return Item::from_mysqli_array(parent::get($pk, $prefetch));
+        return Item::from_mysqli_array(parent::get($pk, NULL, $prefetch));
     }
 
     public function all($order_by = "", $order_dir = "", $prefetch=NULL)
