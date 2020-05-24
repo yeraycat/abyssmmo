@@ -52,13 +52,13 @@ else if ($_POST['qty'] <= 0)
 }
 else
 {
-    if (!Item::exists($_GET['ID']))
+    if (!Item::objects()->exists($_GET['ID']))
     {
         print "Invalid item ID";
     }
     else
     {
-        $itemd = Item::get($_GET['ID']);
+        $itemd = Item::objects()->get($_GET['ID']);
         if ($user->money < $itemd->buy_price * $_POST['qty'])
         {
             print "You don't have enough money to buy this item!";

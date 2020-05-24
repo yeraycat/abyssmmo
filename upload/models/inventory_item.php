@@ -17,7 +17,7 @@ class InventoryItem {
     public static function create_from_mysqli_array($r) {
         return new InventoryItem(
             $r['inv_id'],
-            Item::get($r['inv_itemid']),
+            Item::objects()->get($r['inv_itemid']),
             User::get($r['inv_userid']),
             $r['inv_qty']
         );

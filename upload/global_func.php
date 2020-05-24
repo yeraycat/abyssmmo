@@ -76,7 +76,7 @@ function itemtype_dropdown($connection, $ddname = "item_type", $selected = -1)
 function item_dropdown($connection, $ddname = "item", $selected = -1)
 {
     $ret = "<select name='$ddname' type='dropdown'>";
-    $items = Item::get_all();
+    $items = Item::objects()->all();
     if ($selected == -1)
     {
         $first = 0;

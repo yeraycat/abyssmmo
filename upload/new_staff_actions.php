@@ -280,7 +280,7 @@ function give_item_submit()
     $_POST['user'] = abs(@intval($_POST['user']));
     $_POST['qty'] = abs(@intval($_POST['qty']));
     $item_id = $_POST['item'];
-    if (!Item::exists($item_id))
+    if (!Item::objects()->exists($item_id))
     {
         print "There is no such item.";
         return;
@@ -642,7 +642,7 @@ function new_item_submit()
     }
     $itmbuyp = abs(@intval($_POST['itmbuyprice']));
     $itmsellp = abs(@intval($_POST['itmsellprice']));
-    $item = Item::get(Item::add($itmname, $itmtype, $itmdesc, $itmbuyp, $itmsellp, $itmbuy));
+    $item = Item::objects()->get(Item::add($itmname, $itmtype, $itmdesc, $itmbuyp, $itmsellp, $itmbuy));
     if ($item->is_food())
     {
         $stat = abs(@intval($_POST['energy']));
@@ -688,12 +688,12 @@ function kill_item_submit()
     global $ir, $c, $h, $userid;
     $_POST['item'] = abs(@intval($_POST['item']));
     $item_id = $_POST['item'];
-    if (!Item::exists($item_id))
+    if (!Item::objects()->exists($item_id))
     {
         print "There is no such item.";
         return;
     }
-    $itemi = Item::get($item_id);
+    $itemi = Item::objects()->get($item_id);
     mysqli_query($c, "DELETE FROM items WHERE itmid={$_POST['item']}");
     mysqli_query($c, "DELETE FROM shopitems WHERE sitemITEMID={$_POST['item']}");
     mysqli_query($c, "DELETE FROM inventory WHERE inv_itemid={$_POST['item']}");
@@ -721,12 +721,12 @@ function edit_item_form()
 {
     global $ir, $c, $h;
     $item_id = abs(@intval($_POST['item']));
-    if (!Item::exists($item_id))
+    if (!Item::objects()->exists($item_id))
     {
         print "There is no such item.";
         return;
     }
-    $itemi = Item::get($item_id);
+    $itemi = Item::objects()->get($item_id);
     $f = mysqli_query($c, "SELECT * FROM food WHERE item_id={$item_id}");
     if (mysqli_num_rows($f) > 0)
     {
@@ -806,7 +806,7 @@ function edit_item_sub() {
         exit;
     }
     $itmid = abs(@intval($_POST['itmid']));
-    if (!Item::exists($itmid))
+    if (!Item::objects()->exists($itmid))
     {
         print 
                 "That item doesn't exist.<br />
@@ -842,7 +842,7 @@ function edit_item_sub() {
     }
     $itmbuyp = abs(@intval($_POST['itmbuyprice']));
     $itmsellp = abs(@intval($_POST['itmsellprice']));
-    $item = Item::get($itmid);
+    $item = Item::objects()->get($itmid);
     // mysqli_query($c, "DELETE FROM items WHERE itmid={$itmid}");
     mysqli_query($c, "DELETE FROM food WHERE item_id={$itmid}");
     mysqli_query($c, "DELETE FROM weapons WHERE item_id={$itmid}");
@@ -972,7 +972,7 @@ function new_stock_submit()
         $h->endpage();
         exit;
     }
-    if (!Item::exists($item_id))
+    if (!Item::objects()->exists($item_id))
     {
         print 
                 "That item doesn't exist.<br />

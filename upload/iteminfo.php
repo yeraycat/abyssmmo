@@ -42,13 +42,13 @@ $h->menuarea();
 //look up item
 $_GET['ID'] = abs((int) $_GET['ID']);
 $itmid = $_GET['ID'];
-if (!$itmid || !Item::exists($itmid))
+if (!$itmid || !Item::objects()->exists($itmid))
 {
     print "Invalid item ID";
 }
 else
 {
-    $item = Item::get($itmid);
+    $item = Item::objects()->get($itmid);
 
     print "<table width=75%><tr style='background: gray;'><th colspan=2><b>Looking up info on {$item->name}</b></th></table>
 <table width=75%><tr bgcolor=#dfdfdf><th colspan=2>The <b>{$item->name}</b> is a/an {$item->item_type->name} Item - <b>{$item->description}</b></th></table><br />
