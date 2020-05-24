@@ -10,7 +10,7 @@
 ### Installing the project
 
 1. Clone the project `git clone https://github.com/yeraycat/abyssmmo.git`
-1. Change to the project directory `cd abyssmo`
+1. Change to the project directory `cd abyssmmo`
 1. Run docker compose `docker-compose up`
 1. In your browser, go to http://localhost:8080/installer.php
 1. Set `db` as mysql hostname
