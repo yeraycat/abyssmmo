@@ -1,8 +1,10 @@
 <?php
 
 require_once(dirname(__FILE__) . "/../mysql.php");
+require_once(dirname(__FILE__) . "/base_model.php");
+require_once(dirname(__FILE__) . "/../managers/item_types_manager.php");
 
-class ItemType {
+class ItemType extends BaseModel {
 
     public static $FOOD = 1;
     public static $MELEE_WEAPON = 3;
@@ -10,55 +12,27 @@ class ItemType {
     public static $MEDICAL = 5;
     public static $ARMOUR = 7;
 
+    public $id;
+    public $name;
+
     public function __construct($id, $name) {
         $this->id = $id;
         $this->name = $name;
     }
 
-    public static function create_from_mysqli_array($r) {
+    public static function from_mysqli_array($r) {
         return new ItemType(
-            $r['itmtypeid'],
+            $r[self::$pkfield],
             $r['itmtypename']
         );
     }
 
-    public static function get_all($order_by='itmtypeid', $order_dir='ASC') {
-        global $c;
-        $query = "SELECT * FROM itemtypes ORDER BY {$order_by} {$order_dir}";
-        $q = mysqli_query(
-            $c,
-            $query
-        ) or die(mysqli_error($c));
-        $result = [];
-        while ($r = mysqli_fetch_array($q))
-        {
-            array_push($result, self::create_from_mysqli_array($r));
-        }
-        mysqli_free_result($q);
-        return $result;
+    public static function objects() {
+        return new ItemTypesManager();
     }
 
-    public static function get($id) {
-        global $c;
-        $query = "SELECT * FROM itemtypes WHERE itmtypeid={$id}";
-        $q = mysqli_query(
-            $c,
-            $query
-        );
-        $r = mysqli_fetch_array($q);
-        mysqli_free_result($q);
-        return self::create_from_mysqli_array($r);
+    public function delete() {
+        self::objects()->delete($this->id);
     }
 
-    public static function exists($id) {
-        global $c;
-        $query = "SELECT * FROM itemtypes WHERE itmtypeid={$id}";
-        $q = mysqli_query(
-            $c,
-            $query
-        );
-        $num_rows = mysqli_num_rows($q);
-        mysqli_free_result($q);
-        return $num_rows != 0;
-    }
 }

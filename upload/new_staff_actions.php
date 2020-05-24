@@ -632,7 +632,7 @@ function new_item_submit()
     // verify item type
     $itmtype = abs(@intval($_POST['itmtype']));
     
-    if (!ItemType::exists($itmtype))
+    if (!ItemType::objects()->exists($itmtype))
     {
         print 
                 "That item type doesn't exist.<br />
@@ -832,7 +832,7 @@ function edit_item_sub() {
     }
     // verify item type
     $itmtype = abs(@intval($_POST['itmtype']));
-    if (!ItemType::exists($itmtype))
+    if (!ItemType::objects()->exists($itmtype))
     {
         print 
                 "That item type doesn't exist.<br />
@@ -848,7 +848,7 @@ function edit_item_sub() {
     mysqli_query($c, "DELETE FROM weapons WHERE item_id={$itmid}");
     mysqli_query($c, "DELETE FROM medical WHERE item_id={$itmid}");
     mysqli_query($c, "DELETE FROM armour WHERE item_ID={$itmid}");
-    $item->item_type = ItemType::get($itmtype);
+    $item->item_type = ItemType::objects()->get($itmtype);
     $item->name = $itmname;
     $item->description = $itmdesc;
     $item->buy_price = $itmbuyp;

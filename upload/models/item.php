@@ -18,7 +18,7 @@ class Item {
     public static function create_from_mysqli_array($r) {
         return new Item(
             $r['itmid'],
-            ItemType::get($r['itmtype']),
+            ItemType::objects()->get($r['itmtype']),
             $r['itmname'],
             $r['itmdesc'],
             $r['itmbuyprice'],

@@ -51,7 +51,7 @@ function money_formatter($muny, $symb = '$')
 function itemtype_dropdown($connection, $ddname = "item_type", $selected = -1)
 {
     $ret = "<select name='$ddname' type='dropdown'>";
-    $item_types = ItemType::get_all('itmtypename', 'ASC');
+    $item_types = ItemType::objects()->all('itmtypename', 'ASC');
     if ($selected == -1)
     {
         $first = 0;
