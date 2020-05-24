@@ -69,11 +69,11 @@ abstract class BaseManager {
         mysqli_free_result($q);
     }
 
-    public static abstract function insert();
+    public abstract function insert($object);
 
-    public static abstract function update();
+    public abstract function update($object);
 
-    public static function delete($pk) {
+    public function delete($pk) {
         global $c;
         $tablename = static::$tablename;
         $pkfield = static::$pkfield;

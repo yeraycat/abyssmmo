@@ -31,8 +31,4 @@ class ItemType extends BaseModel {
         return new ItemTypesManager();
     }
 
-    public function delete() {
-        self::objects()->delete($this->id);
-    }
-
 }

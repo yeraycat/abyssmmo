@@ -16,7 +16,7 @@ abstract class BaseModel {
         }
     }
 
-    public abstract function delete() {
+    public function delete() {
         static::objects()->delete($this->id);
-    };
+    }
 }
