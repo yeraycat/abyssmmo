@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__) . "/../models/inventory_item.php");
 require_once(dirname(__FILE__) . "/base_manager.php");
 
-class InventoryItemManager extends BaseManager {
+class InventoryItemsManager extends BaseManager {
     protected static $tablename = "inventory";
     protected static $pkfield = "inv_id";
     protected static $default_order_by = "inv_id";

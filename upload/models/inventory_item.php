@@ -4,8 +4,10 @@ require_once(dirname(__FILE__) . "/../mysql.php");
 
 require_once(dirname(__FILE__) . "/item.php");
 require_once(dirname(__FILE__) . "/user.php");
+require_once(dirname(__FILE__) . "/base_model.php");
+require_once(dirname(__FILE__) . "/../managers/inventory_items_manager.php");
 
-class InventoryItem {
+class InventoryItem extends BaseModel {
 
     public function __construct($id, $item, $user, $quantity) {
         $this->id = $id;
@@ -17,10 +19,14 @@ class InventoryItem {
     public static function from_mysqli_array($r) {
         return new InventoryItem(
             $r['inv_id'],
-            Item::objects()->get($r['inv_itemid']),
+            Item::from_mysqli_array($r),
             User::get($r['inv_userid']),
             $r['inv_qty']
         );
+    }
+
+    public static function objects() {
+        return new InventoryItemsManager();
     }
 
     public static function get_inventory_from_user_id($user_id) {
