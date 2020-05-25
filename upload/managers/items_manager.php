@@ -9,9 +9,9 @@ class ItemsManager extends BaseManager
     protected static $tablename = "items";
     protected static $default_order_by = "itmid";
 
-    public function get($pk, $prefetch=NULL)
+    public function get($pk, $conditions=NULL, $prefetch=NULL)
     {
-        $default_relationships = [['tablename' => 'itemtypes', 'local_key'=> 'itmtype', 'foreign_key' => 'itmtypeid']];
+        $default_relationships = [['tablenameA' => static::$tablename, 'tablenameB' => 'itemtypes', 'local_key'=> 'itmtype', 'foreign_key' => 'itmtypeid']];
         $prefetch = $prefetch && count($prefetch) ? array_merge($default_relationships, $prefetch) : $default_relationships;
         return Item::from_mysqli_array(parent::get($pk, NULL, $prefetch));
     }
@@ -54,5 +54,12 @@ class ItemsManager extends BaseManager
             SET itmtype={$item_type}, itmname='{$item_name}', itmdesc='{$item_desc}', itmbuyprice={$item->buy_price}, itmsellprice={$item->sell_price}, itmbuyable={$item->buyable} 
             WHERE {$pkfield}={$item_id};";
         parent::no_result_query($query);
+    }
+
+    public function filter($filter_name, $params, $order_by="", $order_dir="", $limit=NULL) {
+        switch($filter_name) {
+            default:
+                return $this->all($order_by, $order_dir, NULL, NULL, $limit);
+        }
     }
 }

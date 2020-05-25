@@ -42,6 +42,11 @@ class SettingsManager extends BaseManager {
         parent::no_result_query($query);
     }
 
-    
+    public function filter($filter_name, $params, $order_by="", $order_dir="", $limit=NULL) {
+        switch($filter_name) {
+            default:
+                return $this->all($order_by, $order_dir, NULL, NULL, $limit);
+        }
+    }
 
 }

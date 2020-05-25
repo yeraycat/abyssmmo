@@ -23,7 +23,7 @@ class BlacklistRecord {
 
     public static function add($adder_user, $added_user, $comment) {
         global $c;
-        $query = "INSERT INTO blacklist VALUES(NULL, $adder_user->userid, {$added_user->userid}, '{$comment}')";
+        $query = "INSERT INTO blacklist VALUES(NULL, $adder_user->id, {$added_user->id}, '{$comment}')";
         $q = mysqli_query(
             $c,
             $query
@@ -45,7 +45,7 @@ class BlacklistRecord {
 
     public static function filter_by_added($added_user) {
         global $c;
-        $query = "SELECT * FROM blacklist WHERE bl_ADDED=$added_user->userid";
+        $query = "SELECT * FROM blacklist WHERE bl_ADDED=$added_user->id";
         $q = mysqli_query(
             $c,
             $query
@@ -90,7 +90,7 @@ class BlacklistRecord {
 
     public static function is_user_in_blacklist($adder_user, $added_user) {
         global $c;
-        $query = "SELECT * FROM blacklist WHERE bl_ADDER=$adder_user->userid AND bl_ADDED={$added_user->userid}";
+        $query = "SELECT * FROM blacklist WHERE bl_ADDER=$adder_user->id AND bl_ADDED={$added_user->id}";
         $q = mysqli_query(
             $c,
             $query

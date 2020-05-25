@@ -82,12 +82,12 @@ These are the people on your black list. ";
             print " | ";
         }
         print 
-                "<a href='viewuser.php?u={$mh_user->userid}'>{$mh_user->username}</a>";
+                "<a href='viewuser.php?u={$mh_user->id}'>{$mh_user->username}</a>";
     }
     print 
             "]
 <table width=90%><tr style='background:gray'> <th>ID</th> <th>Name</th> <th>Mail</th> <th>Attack</th> <th>Remove</th> <th>Comment</th> <th>Change Comment</th> <th>Online?</th></tr>";
-    $blacklist = BlacklistRecord::filter_by_adder($user->userid);
+    $blacklist = BlacklistRecord::filter_by_adder($user->id);
     
     foreach ($blacklist as $bl_record)
     {
@@ -114,7 +114,7 @@ These are the people on your black list. ";
             $formatted_comment = "N/A";
         }
         print 
-                "<tr> <td>{$added_user->userid}</td> <td><a href='viewuser.php?u={$added_user->userid}'>{$formatted_username}</a> $d</td> <td><a href='mailbox.php?action=compose&ID={$added_user->userid}'>Mail</a></td> <td><a href='attack.php?ID={$added_user->userid}'>Attack</a></td> <td><a href='blacklist.php?action=remove&f={$bl_record->id}'>Remove</a></td> <td>{$formatted_comment}</td> <td><a href='blacklist.php?action=ccomment&f={$bl_record->id}'>Change</a></td> <td>$on</td></tr>";
+                "<tr> <td>{$added_user->id}</td> <td><a href='viewuser.php?u={$added_user->id}'>{$formatted_username}</a> $d</td> <td><a href='mailbox.php?action=compose&ID={$added_user->id}'>Mail</a></td> <td><a href='attack.php?ID={$added_user->id}'>Attack</a></td> <td><a href='blacklist.php?action=remove&f={$bl_record->id}'>Remove</a></td> <td>{$formatted_comment}</td> <td><a href='blacklist.php?action=ccomment&f={$bl_record->id}'>Change</a></td> <td>$on</td></tr>";
     }
 }
 
@@ -141,7 +141,7 @@ function add_enemy()
         {
             print "You cannot add the same person twice.";
         }
-        else if ($user->userid == $enemy_id)
+        else if ($user->id == $enemy_id)
         {
             print 
                     "You cannot be so lonely that you have to try and add yourself.";
@@ -177,7 +177,7 @@ Comment (optional): <br />
 function remove_enemy()
 {
     global $user;
-    BlacklistRecord::remove($_GET['f'], $user->userid);
+    BlacklistRecord::remove($_GET['f'], $user->id);
     print 
             "Black list entry removed!<br />
 <a href='blacklist.php'>&gt; Back</a>";
@@ -199,7 +199,7 @@ function change_comment()
     );
     if ($_POST['comment'])
     {
-        BlacklistRecord::edit_comment($_POST['f'], $user->userid, $_POST['comment']);
+        BlacklistRecord::edit_comment($_POST['f'], $user->id, $_POST['comment']);
         print 
                 "Comment for enemy changed!<br />
 <a href='blacklist.php'>&gt; Back</a>";
@@ -208,7 +208,7 @@ function change_comment()
     {
         $_GET['f'] = abs((int) $_GET['f']);
         
-        if (BlacklistRecord::check_adder($_GET['f'], $user->userid))
+        if (BlacklistRecord::check_adder($_GET['f'], $user->id))
         {
             $bl_record = BlacklistRecord::get($_GET['f']);
             $comment = str_replace('<br />', "\n", $bl_record->comment);

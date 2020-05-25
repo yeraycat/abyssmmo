@@ -61,7 +61,7 @@ If you ever swear or do bad things at your mail, your name will become a permane
 foreach ($mailban_users as $mb_user)
 {
     print
-            "<tr><td><a href='viewuser.php?u={$$mb_user->userid}'>{$mb_user->username}</a></td>
+            "<tr><td><a href='viewuser.php?u={$$mb_user->id}'>{$mb_user->username}</a></td>
 <td>{$mb_user->mailban} </td><td> {$$mb_user->mb_reason}</td><td></td></tr>";
 }
 print "</table>";

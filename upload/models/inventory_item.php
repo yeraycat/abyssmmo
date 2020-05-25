@@ -14,7 +14,7 @@ class InventoryItem {
         $this->quantity = $quantity;
     }
 
-    public static function create_from_mysqli_array($r) {
+    public static function from_mysqli_array($r) {
         return new InventoryItem(
             $r['inv_id'],
             Item::objects()->get($r['inv_itemid']),
@@ -38,7 +38,7 @@ class InventoryItem {
         $result = [];
         while ($r = mysqli_fetch_array($q))
         {
-            array_push($result, self::create_from_mysqli_array($r));
+            array_push($result, self::from_mysqli_array($r));
         }
         mysqli_free_result($q);
         return $result;

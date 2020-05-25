@@ -59,7 +59,7 @@ if ($_POST['submit'])
 <table><tr style='background-color:gray;'><th>User</th><th>Level</th><th>Money</th></tr>";
     foreach ($search_result as $r) {
         print
-                "<tr><td><a href='viewuser.php?u={$r->userid}'>{$r->username}</a></td><td>{$r->level}</td><td>\${$r->money}</td></tr>";
+                "<tr><td><a href='viewuser.php?u={$r->id}'>{$r->username}</a></td><td>{$r->level}</td><td>\${$r->money}</td></tr>";
     }
     print "</table>";
 }

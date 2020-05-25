@@ -64,7 +64,7 @@ if (isset($_GET['train']))
             $egain = $gain / 10;
             $ts = $user->{$_GET['train']};
             $st = $_GET['train'];
-            $user_stats = UserStats::get($user->userid);
+            $user_stats = UserStats::get($user->id);
             $user_stats->increase_stat($st, $gain);
             
             $wu = (int) (rand(1, 3));

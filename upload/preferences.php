@@ -170,7 +170,7 @@ function do_pass_change()
             $c,
             "UPDATE `users`
                  SET `userpass` = '{$new_psw}'
-                 WHERE `userid` = {$user->userid}"
+                 WHERE `userid` = {$user->id}"
         );
         echo "Password changed!<br />
         &gt; <a href='preferences.php'>Go Back</a>";

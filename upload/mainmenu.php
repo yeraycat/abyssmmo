@@ -33,7 +33,7 @@ if (!$user->is_in_hospital())
 <a href='inventory.php'>Items</a><br />
 <a href='explore.php'>Explore</a><br />
 <a href='events.php'>";
-    $cnt_new_ev = Event::count_new_events($user->userid);
+    $cnt_new_ev = Event::count_new_events($user->id);
     if ($cnt_new_ev > 0)
     {
         print "<b>Events ({$cnt_new_ev})</b>";
@@ -46,7 +46,7 @@ if (!$user->is_in_hospital())
 <a href='mailbox.php'>";
     $d2 = mysqli_query(
         $c,
-        "SELECT COUNT(*) as cnt FROM mail WHERE mail_to={$user->userid} AND mail_read=0"
+        "SELECT COUNT(*) as cnt FROM mail WHERE mail_to={$user->id} AND mail_read=0"
     ) or die(mysqli_error($c));
     $r = mysqli_fetch_array($d2);
     if ($r['cnt'] > 0)
@@ -118,7 +118,7 @@ if (!$user->is_in_hospital())
 <a href='preport.php'>Player Report</a><br />
 <a href='helptutorial.php'>Help Tutorial</a><br />
 <a href='gamerules.php'>Game Rules</a><br />
-<a href='viewuser.php?u={$user->userid}'>My Profile</a><br />
+<a href='viewuser.php?u={$user->id}'>My Profile</a><br />
 <a href='logout.php'>Logout</a><br /><br />
 Time is now<br />
             ";
@@ -132,7 +132,7 @@ else
 <a href='events.php'>";
     $d = mysqli_query(
         $c,
-        "SELECT COUNT(*) as cnt FROM events WHERE evUSER={$user->userid} AND evREAD=0"
+        "SELECT COUNT(*) as cnt FROM events WHERE evUSER={$user->id} AND evREAD=0"
     ) or die(mysqli_error($c));
     $r = mysqli_fetch_array($d);
     if ($r['cnt'] > 0)
@@ -147,7 +147,7 @@ else
 <a href='mailbox.php'>";
     $d2 = mysqli_query(
         $c,
-        "SELECT COUNT(*) as cnt FROM mail WHERE mail_to={$user->userid} AND mail_read=0"
+        "SELECT COUNT(*) as cnt FROM mail WHERE mail_to={$user->id} AND mail_read=0"
     ) or die(mysqli_error($c));
     $r = mysqli_fetch_array($d2);
     if ($r['cnt'] > 0)
@@ -216,7 +216,7 @@ else
 <a href='preport.php'>Player Report</a><br />
 <a href='helptutorial.php'>Help Tutorial</a><br />
 <a href='gamerules.php'>Game Rules</a><br />
-<a href='viewuser.php?u={$user->userid}'>My Profile</a><br />
+<a href='viewuser.php?u={$user->id}'>My Profile</a><br />
 <a href='logout.php'>Logout</a><br /><br />
 Time is now<br />
             ";

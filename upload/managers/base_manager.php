@@ -42,7 +42,7 @@ abstract class BaseManager {
         return $num_rows != 0;
     }
 
-    public function all($order_by="", $order_dir="", $conditions=NULL, $prefetch=NULL) {
+    public function all($order_by="", $order_dir="", $conditions=NULL, $prefetch=NULL, $limit=NULL) {
         global $c;
         $tablename = static::$tablename;
         $prefetch = $prefetch && count($prefetch) ? $this->generate_joins($prefetch) : '';
@@ -50,7 +50,8 @@ abstract class BaseManager {
         $order_dir = $order_dir ? $order_dir : static::$default_order_dir;
         $order_by = $prefetch ? "{$tablename}.{$order_by}" : $order_by;
         $conditions = $conditions && count($conditions) ? $this->generate_where($conditions) : "";
-        $query = "SELECT * FROM {$tablename} {$prefetch} {$conditions} ORDER BY {$order_by} {$order_dir};";
+        $limit = $limit ? "LIMIT " . $limit : "";
+        $query = "SELECT * FROM {$tablename} {$prefetch} {$conditions} ORDER BY {$order_by} {$order_dir} {$limit};";
         $q = mysqli_query($c, $query) or die(mysqli_error($c));
         $result = [];
         while ($r = mysqli_fetch_array($q))
@@ -61,29 +62,10 @@ abstract class BaseManager {
         return $result;
     }
 
-    // public static abstract function filter($order_by="", $order_dir="", $prefetch=NULL);
-
-    public static function query($query) {
-        global $c;
-        $q = mysqli_query($c, $query) or die(mysqli_error($c));
-        $result = [];
-        while ($r = mysqli_fetch_array($q))
-        {
-            array_push($result, $r);
-        }
-        mysqli_free_result($q);
-        return $result;
+    public function create($object) {
+        $this->insert($object);
+        return $this->get(parent::get_last_id());
     }
-
-    public static function no_result_query($query) {
-        global $c;
-        $q = mysqli_query($c, $query) or die(mysqli_error($c));
-        mysqli_free_result($q);
-    }
-
-    public abstract function insert($object);
-
-    public abstract function update($object);
 
     public function delete($pk) {
         global $c;
@@ -94,16 +76,17 @@ abstract class BaseManager {
         mysqli_free_result($q);
     }
 
-    public function create($object) {
-        $this->insert($object);
-        return $this->get(parent::get_last_id());
-    }
+    public abstract function filter($filter_name, $params, $order_by, $order_dir, $limit);
+
+    public abstract function insert($object);
+
+    public abstract function update($object);
 
     protected function generate_joins($prefetch) {
         $result = "";
         foreach($prefetch as $p) {
-            $tablenameA = static::$tablename;
-            $tablenameB = $p['tablename'];
+            $tablenameA = $p['tablenameA'];
+            $tablenameB = $p['tablenameB'];
             $keyA = $p['local_key'];
             $keyB = $p['foreign_key'];
             $join = "LEFT JOIN {$tablenameB} ON {$tablenameA}.{$keyA}={$tablenameB}.{$keyB} ";
@@ -122,5 +105,23 @@ abstract class BaseManager {
             $result .= " " . $condition['condition'] . $condition['value'];
         }
         return $result;
+    }
+
+    public static function query($query) {
+        global $c;
+        $q = mysqli_query($c, $query) or die(mysqli_error($c));
+        $result = [];
+        while ($r = mysqli_fetch_array($q))
+        {
+            array_push($result, $r);
+        }
+        mysqli_free_result($q);
+        return $result;
+    }
+
+    public static function no_result_query($query) {
+        global $c;
+        $q = mysqli_query($c, $query) or die(mysqli_error($c));
+        mysqli_free_result($q);
     }
 }

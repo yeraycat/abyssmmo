@@ -200,7 +200,7 @@ if ($_GET['wepid'])
                             / $user->user_stats->guard) * (rand(8000, 12000) / 10000));
         }
         $hitratio = min(50 * $opponent->user_stats->agility / $user->user_stats->agility, 95);
-        if ($opponent->userid == 1)
+        if ($opponent->id == 1)
         {
             $hitratio = 100;
         }

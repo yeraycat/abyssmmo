@@ -58,7 +58,7 @@ EOF;
         $ip = mysqli_real_escape_string($c, $_SERVER['REMOTE_ADDR']);
         mysqli_query($c,
                 "UPDATE users SET laston=" . time()
-                        . ",lastip='$ip' WHERE userid=$user->userid");
+                        . ",lastip='$ip' WHERE userid=$user->id");
         if (!$user->email)
         {
             die(
@@ -69,7 +69,7 @@ EOF;
             if ($_SESSION['attacking'] > 0)
             {
                 print "You lost all your EXP for running from the fight.";
-                mysqli_query($c, "UPDATE users SET exp=0 WHERE userid=$user->userid");
+                mysqli_query($c, "UPDATE users SET exp=0 WHERE userid=$user->id");
                 $_SESSION['attacking'] = 0;
             }
         }
@@ -94,7 +94,7 @@ EOF;
         print
                 "
 <table width=100%><tr><td><img src='logo.png'></td>
-<td><b>Name:</b> {$u} [{$user->userid}] $d<br />
+<td><b>Name:</b> {$u} [{$user->id}] $d<br />
 <b>Money:</b> {$fm}<br />
 <b>Level:</b> {$user->level}<br />
 <b>Crystals:</b> {$user->crystals}<br />
@@ -125,7 +125,7 @@ EOF;
             $q =
                     mysqli_query(
                             $c,
-                            "SELECT * FROM fedjail WHERE fed_userid=$user->userid"
+                            "SELECT * FROM fedjail WHERE fed_userid=$user->id"
                     );
             $r = mysqli_fetch_array($q);
             die(

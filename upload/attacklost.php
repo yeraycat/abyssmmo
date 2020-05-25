@@ -51,10 +51,10 @@ if (User::exists($_GET['ID']))
     $expgainp = $expgain / $user->get_exp_needed() * 100;
     print " and lost $expgainp% EXP!";
     $user->increase_exp(-$expgain);
-    $user->increase_hospital_time(40, 20, 'Lost to <a href=\'viewuser.php?u={$opponent->userid}\'>{$opponent->username}</a>');
+    $user->increase_hospital_time(40, 20, 'Lost to <a href=\'viewuser.php?u={$opponent->id}\'>{$opponent->username}</a>');
     
     Event::add(
-        $opponent->userid,
+        $opponent->id,
         "<a href=\'viewuser.php?u={$userid}\'>{$user->username}</a> attacked you and lost."
     );
     $atklog = mysqli_escape_string($c, $_SESSION['attacklog']);

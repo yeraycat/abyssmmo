@@ -58,10 +58,10 @@ if (User::exists($_GET['ID']))
     {
         print "You beat {$opponent->username} and hospitalized them.";
 
-        Event::add($opponent->userid, "<a href='viewuser.php?u=$userid'>{$user->username}</a> hospitalized you.");
-        $opponent->increase_hospital_time(80, 230, 'Hospitalized by <a href=\'viewuser.php?u={$user->userid}\'>{$user->username}</a>');
+        Event::add($opponent->id, "<a href='viewuser.php?u=$userid'>{$user->username}</a> hospitalized you.");
+        $opponent->increase_hospital_time(80, 230, 'Hospitalized by <a href=\'viewuser.php?u={$user->id}\'>{$user->username}</a>');
         
-        $atklog = mysql_escape_string($_SESSION['attacklog']);
+        $atklog = mysql_escape($_SESSION['attacklog']);
         mysqli_query(
                 "INSERT INTO attacklogs VALUES(NULL,$userid,{$_GET['ID']},'won',"
                         . time() . ",-1,'$atklog');", $c);
@@ -72,18 +72,18 @@ if (User::exists($_GET['ID']))
                         2479 => 30000, 2480 => 30000, 2481 => 30000,
                         0 => 100000, 0 => 1400000, 0 => 1400000, 0 => 1400000,
                         0 => 5000000, 0 => 10000000);
-        if (in_array($opponent->userid, $bots))
+        if (in_array($opponent->id, $bots))
         {
             $qk =
                     mysqli_query(
-                            "SELECT * FROM challengesbeaten WHERE userid=$userid AND npcid={$opponent->userid}",
+                            "SELECT * FROM challengesbeaten WHERE userid=$userid AND npcid={$opponent->id}",
                             $c);
             if (!mysqli_num_rows($qk))
             {
-                $gain = $moneys[$opponent->userid];
+                $gain = $moneys[$opponent->id];
                 $user->increase_money($gain);
                 mysqli_query(
-                        "INSERT INTO challengesbeaten VALUES ($userid,{$opponent->userid})",
+                        "INSERT INTO challengesbeaten VALUES ($userid,{$opponent->id})",
                         $c);
                 print
                         "<br /><br />Congrats, you have beaten the Challenge BOT {$opponent->username}, you have earnt \$$gain!";

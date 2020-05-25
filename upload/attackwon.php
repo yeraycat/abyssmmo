@@ -67,7 +67,7 @@ if (User::exists($_GET['ID']))
         $opponent->set_hp(1);
         
         Event::add(
-            $opponent->userid,
+            $opponent->id,
             "<a href='viewuser.php?u=$userid'>{$username->username}</a> attacked you and stole $stole."
         );
         $atklog = mysqli_escape_string($c, $_SESSION['attacklog']);
@@ -84,20 +84,20 @@ if (User::exists($_GET['ID']))
                         265 => 15000, 536 => 100000, 720 => 1400000,
                         721 => 1400000, 722 => 1400000, 585 => 5000000,
                         820 => 10000000);
-        if (in_array($opponent->userid, $bots))
+        if (in_array($opponent->id, $bots))
         {
             $qk = mysqli_query(
                 $c,
-                "SELECT * FROM challengesbeaten WHERE userid=$userid AND npcid={$opponent->userid}"
+                "SELECT * FROM challengesbeaten WHERE userid=$userid AND npcid={$opponent->id}"
             );
             if (!mysqli_num_rows($qk))
             {
-                $gain = $moneys[$opponent->userid];
+                $gain = $moneys[$opponent->id];
                 $user->increase_money($gain);
                 
                 mysqli_query(
                     $c,
-                    "INSERT INTO challengesbeaten VALUES ($userid,{$opponent->userid})"
+                    "INSERT INTO challengesbeaten VALUES ($userid,{$opponent->id})"
                 );
                 print
                         "<br /><br />Congrats, for beating the Challenge Bot {$opponent->username}, you have earnt \$$gain!";

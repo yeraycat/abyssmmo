@@ -6,13 +6,15 @@ require_once(dirname(__FILE__) . "/house.php");
 
 class User {
 
+    public $id;
+
     public function __construct($userid, $username, $userpass, $level, $exp, $exp_needed, $money, $crystals,
             $laston, $lastip, $energy, $will, $brave, $hp, $maxenergy, $maxwill, $maxbrave, $maxhp,
             $lastrest_life, $lastrest_other, $location, $hospital, $jail, $fedjail, $user_level,
             $gender, $daysold, $signedup, $course, $cdays, $donatordays, $email, $login_name,
             $display_pic, $duties, $bankmoney, $cybermoney, $staffnotes, $mailban, $mb_reason,
             $hospreason, $pass_salt, $user_stats) {
-        $this->userid = $userid;
+        $this->id = $userid;
         $this->username = $username;
         $this->userpass = $userpass;
         $this->level = $level;
@@ -253,7 +255,7 @@ class User {
 
     public function buy_house($house) {
         global $c;
-        $query = "UPDATE users SET money=money-{$house->price},will=0,maxwill={$house->will} WHERE userid=$this->userid";
+        $query = "UPDATE users SET money=money-{$house->price},will=0,maxwill={$house->will} WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -266,7 +268,7 @@ class User {
         $ZERO_WILL = 0;
         $SHED_WILL = 100;
         $house = $this->get_house();
-        $query = "UPDATE users SET money=money+{$house->price},will=$ZERO_WILL,maxwill=$SHED_WILL WHERE userid=$this->userid";
+        $query = "UPDATE users SET money=money+{$house->price},will=$ZERO_WILL,maxwill=$SHED_WILL WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -278,7 +280,7 @@ class User {
         $ZERO_HP = 0;
         global $c;
         $this->hp = $ZERO_HP;
-        $query = "UPDATE users SET hp=$ZERO_HP WHERE userid=$this->userid";
+        $query = "UPDATE users SET hp=$ZERO_HP WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -298,7 +300,7 @@ class User {
         }
         $this->hp -= $damage;
 
-        $query = "UPDATE users SET hp=hp-$damage WHERE userid=$this->userid";
+        $query = "UPDATE users SET hp=hp-$damage WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -310,7 +312,7 @@ class User {
         global $c;
         $this->energy -= $this->max_energy / 2;
         $me = $this->max_energy / 2;
-        $query = "UPDATE users SET energy=energy-{$me} WHERE userid=$this->userid";
+        $query = "UPDATE users SET energy=energy-{$me} WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -321,7 +323,7 @@ class User {
     public function exp_penalty() {
         global $c;
         $this->exp = 0;
-        $query = "UPDATE users SET exp=0 WHERE userid=$this->userid";
+        $query = "UPDATE users SET exp=0 WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -346,7 +348,7 @@ class User {
             $q = mysqli_query(
                 $c,
                 "UPDATE users SET level=level+1,exp=$expu,energy=energy+2,brave=brave+2,maxenergy=maxenergy+2,maxbrave=maxbrave+2,
-                    hp=hp+50,maxhp=maxhp+50 where userid=$this->userid"
+                    hp=hp+50,maxhp=maxhp+50 where userid=$this->id"
             );
             mysqli_free_result($q);
         }
@@ -358,7 +360,7 @@ class User {
         $this->hospital = $this->hospital + $base_time + $random_increase;
         $this->hp = 1;
         $query = "UPDATE users 
-            SET hp=$this->hp, hospital=$this->hospital, hospreason='$reason' WHERE userid={$this->userid}";
+            SET hp=$this->hp, hospital=$this->hospital, hospreason='$reason' WHERE userid={$this->id}";
         $q = mysqli_query(
             $c,
             $query
@@ -369,7 +371,7 @@ class User {
     public function increase_exp($exp_inc) {
         global $c;
         $this->exp = $this->exp + $exp_inc;
-        $query = "UPDATE users SET exp=$this->exp WHERE userid=$this->userid";
+        $query = "UPDATE users SET exp=$this->exp WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -379,7 +381,7 @@ class User {
     public function increase_money($money_inc) {
         global $c;
         $this->money = $this->money + $money_inc;
-        $query = "UPDATE users SET money=$this->money WHERE userid=$this->userid";
+        $query = "UPDATE users SET money=$this->money WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -390,7 +392,7 @@ class User {
     public function increase_energy($energy_inc) {
         global $c;
         $this->energy = $this->energy + $energy_inc;
-        $query = "UPDATE users SET energy=$this->energy WHERE userid=$this->userid";
+        $query = "UPDATE users SET energy=$this->energy WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -400,7 +402,7 @@ class User {
     public function set_will($new_will) {
         global $c;
         $this->will = $new_will;
-        $query = "UPDATE users SET will=$this->will WHERE userid=$this->userid";
+        $query = "UPDATE users SET will=$this->will WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -414,7 +416,7 @@ class User {
     public function set_hp($new_hp) {
         global $c;
         $this->hp = $new_hp;
-        $query = "UPDATE users SET hp=$this->hp WHERE userid=$this->userid";
+        $query = "UPDATE users SET hp=$this->hp WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -429,7 +431,7 @@ class User {
     public function set_crystals($new_crystals) {
         global $c;
         $this->crystals = $new_crystals;
-        $query = "UPDATE users SET crystals=$this->crystals where userid=$this->userid";
+        $query = "UPDATE users SET crystals=$this->crystals where userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -444,7 +446,7 @@ class User {
     public function refill_energy() {
         global $c;
         $this->energy = $this->max_energy;
-        $query = "UPDATE users SET energy=maxenergy WHERE userid=$this->userid";
+        $query = "UPDATE users SET energy=maxenergy WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -456,7 +458,7 @@ class User {
         global $c;
         $BANK_ACCOUNT_COST = 50000;
         $this->money = $this->monney - $BANK_ACCOUNT_COST;
-        $query = "UPDATE users SET money=$this->money,bankmoney=0 WHERE userid=$this->userid";
+        $query = "UPDATE users SET money=$this->money,bankmoney=0 WHERE userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -474,7 +476,7 @@ class User {
         $gain = $deposit - $fee;
         $this->bank_money += $gain;
         $this->money -= $deposit;
-        $query = "UPDATE users SET bankmoney=$this->bank_money,money=$this->money where userid=$this->userid";
+        $query = "UPDATE users SET bankmoney=$this->bank_money,money=$this->money where userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
@@ -487,7 +489,7 @@ class User {
         global $c;
         $this->bank_money -= $withdraw;
         $this->money += $withdraw;
-        $query = "UPDATE users SET bankmoney=$this->bank_money,money=$this->money where userid=$this->userid";
+        $query = "UPDATE users SET bankmoney=$this->bank_money,money=$this->money where userid=$this->id";
         $q = mysqli_query(
             $c,
             $query
