@@ -5,8 +5,12 @@ require_once(dirname(__FILE__) . "/../models/inventory_item.php");
 
 class InventoryService {
 
-    public function get_inventory_for_user($user) {
+    public static function get_inventory_for_user($user) {
         return InventoryItem::objects()->filter_by_user($user->id);
+    }
+
+    public static function count_user_items($user) {
+        return count(InventoryItem::objects()->filter_by_user($user->id));
     }
 
     public function get_weapons_for_user() {

@@ -12,7 +12,8 @@ class InventoryItemsManager extends BaseManager {
     {
         $default_relationships = [
             ['tablenameA' => static::$tablename, 'tablenameB' => 'users', 'local_key'=> 'inv_userid', 'foreign_key' => 'userid'],
-            ['tablenameA' => static::$tablename, 'tablenameB' => 'items', 'local_key'=> 'inv_itemid', 'foreign_key' => 'itmid']
+            ['tablenameA' => static::$tablename, 'tablenameB' => 'items', 'local_key'=> 'inv_itemid', 'foreign_key' => 'itmid'],
+            ['tablenameA' => 'items', 'tablenameB' => 'itemtypes', 'local_key'=> 'itmtype', 'foreign_key' => 'itmtypeid']
         ];
         $prefetch = $prefetch && count($prefetch) ? array_merge($default_relationships, $prefetch) : $default_relationships;
         return InventoryItem::from_mysqli_array(parent::get($pk, NULL, $prefetch));
@@ -46,6 +47,10 @@ class InventoryItemsManager extends BaseManager {
     public function filter_by_user($user_id, $order_by="", $order_dir="", $limit=NULL) {
         $conditions = [['condition' => 'inventory.inv_userid=', 'value' => $user_id]];
         return $this->all($order_by, $order_dir, $conditions, NULL, $limit);
+    }
+
+    public function filter_weapons_by_user($user_id, $order_by="", $order_dir="", $limit) {
+        
     }
 
     public function create_inventory_item($item, $user, $quantity) {

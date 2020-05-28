@@ -28,6 +28,7 @@ if ($_SESSION['loggedin'] == 0)
 }
 $userid = $_SESSION['userid'];
 require_once(dirname(__FILE__) . "/models/user.php");
+require_once(dirname(__FILE__) . "/services/inventory_service.php");
 $user = User::get($userid);
 require "header.php";
 $h = new Header();
@@ -38,11 +39,9 @@ $user->check_level();
 $h->userdata($user);
 $h->menuarea();
 
-$inv = mysqli_query(
-    $c,
-    "SELECT iv.*,i.*,it.* FROM inventory iv LEFT JOIN items i ON iv.inv_itemid=i.itmid LEFT JOIN itemtypes it ON i.itmtype=it.itmtypeid WHERE iv.inv_userid={$userid} ORDER BY i.itmtype ASC, i.itmname ASC"
-);
-if (mysqli_num_rows($inv) == 0)
+
+$inventory = InventoryService::get_inventory_for_user($user);
+if (InventoryService::count_user_items($user) == 0)
 {
     print "<b>You have no items!</b>";
 }
@@ -52,28 +51,27 @@ else
             "<b>Your items are listed below.</b><br />
 <table width=100%><tr style='background-color:gray;'><th>Item</th><th>Sell Value</th><th>Total Sell Value</th><th>Links</th></tr>";
     $lt = "";
-    while ($i = mysqli_fetch_array($inv))
-    {
-        if ($lt != $i['itmtypename'])
+    foreach($inventory as $inv_item) {
+        if ($lt != $inv_item->item->item_type->name)
         {
-            $lt = $i['itmtypename'];
+            $lt = $inv_item->item->item_type->name;
             print
                     "\n<tr style='background: gray;'><th colspan=4>{$lt}</th></tr>";
         }
-        print "<tr><td>{$i['itmname']}";
-        if ($i['inv_qty'] > 1)
+        print "<tr><td>{$inv_item->item->name}";
+        if ($inv_item->quantity > 1)
         {
-            print "&nbsp;x{$i['inv_qty']}";
+            print "&nbsp;x{$inv_item->quantity}";
         }
-        print "</td><td>\${$i['itmsellprice']}</td><td>";
-        print "$" . ($i['itmsellprice'] * $i['inv_qty']);
+        print "</td><td>\${$inv_item->item->sell_price}</td><td>";
+        print "$" . ($inv_item->item->sell_price * $inv_item->quantity);
         print
-                "</td><td>[<a href='iteminfo.php?ID={$i['itmid']}'>Info</a>] [<a href='itemsend.php?ID={$i['inv_id']}'>Send</a>] [<a href='itemsell.php?ID={$i['inv_id']}'>Sell</a>] [<a href='imadd.php?ID={$i['inv_id']}'>Add To Market</a>]";
-        if ($i['itmtypename'] == 'Food' || $i['itmtypename'] == 'Medical')
+                "</td><td>[<a href='iteminfo.php?ID={$inv_item->item->id}'>Info</a>] [<a href='itemsend.php?ID={$inv_item->id}'>Send</a>] [<a href='itemsell.php?ID={$inv_item->id}'>Sell</a>] [<a href='imadd.php?ID={$inv_item->id}'>Add To Market</a>]";
+        if ($inv_item->item->item_type->name == 'Food' || $inv_item->item->item_type->name == 'Medical')
         {
-            print " [<a href='itemuse.php?ID={$i['inv_id']}'>Use</a>]";
+            print " [<a href='itemuse.php?ID={$inv_item->id}'>Use</a>]";
         }
-        if ($i['itmname'] == 'Nuclear Bomb')
+        if ($inv_item->item->name == 'Nuclear Bomb')
         {
             print " [<a href='nuclearbomb.php'>Use</a>]";
         }

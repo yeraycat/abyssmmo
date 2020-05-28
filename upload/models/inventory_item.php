@@ -102,7 +102,7 @@ class InventoryItem extends BaseModel {
         ) or die(mysqli_error($c));
         $r = mysqli_fetch_arraY($q);
         mysqli_free_result($q);
-        return self::create_from_mysqli_array($r);
+        return self::from_mysqli_array($r);
     }
 
 }
